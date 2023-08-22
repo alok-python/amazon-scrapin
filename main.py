@@ -73,24 +73,24 @@ def get_amazon_request_data(page_no: int):
 
     payload = {}
     headers = {
-        'device-memory': '8',
-        'sec-ch-device-memory': '8',
-        'dpr': '1',
-        'sec-ch-dpr': '1',
-        'viewport-width': '1920',
-        'sec-ch-viewport-width': '1920',
-        'rtt': '0',
-        'downlink': '10',
-        'ect': '4g',
-        'sec-ch-ua': '"Not/A)Brand";v="99", "Google Chrome";v="115", "Chromium";v="115"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-ch-ua-platform-version': '"15.0.0"',
-        'Upgrade-Insecure-Requests': '1',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-        'host': 'www.amazon.in'
-    }
+  'device-memory': '8',
+  'sec-ch-device-memory': '8',
+  'dpr': '1.1',
+  'sec-ch-dpr': '1.1',
+  'viewport-width': '1682',
+  'sec-ch-viewport-width': '1682',
+  'rtt': '50',
+  'downlink': '10',
+  'ect': '4g',
+  'sec-ch-ua': '"Chromium";v="116", "Not)A;Brand";v="24", "Google Chrome";v="116"',
+  'sec-ch-ua-mobile': '?0',
+  'sec-ch-ua-platform': '"Linux"',
+  'sec-ch-ua-platform-version': '"6.2.0"',
+  'Upgrade-Insecure-Requests': '1',
+  'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36',
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+  'host': 'www.amazon.in'
+}
 
     response = requests.request("GET", url, headers=headers, data=payload)
 
@@ -99,7 +99,7 @@ def get_amazon_request_data(page_no: int):
 
 
 product_data = []
-for i in range(1,21):
+for i in range(1,5):
     raw_html = get_amazon_request_data(page_no=i)
     soup = BeautifulSoup(raw_html, features="html.parser")
     all_seach_items = soup.find_all(attrs={"data-component-type": "s-search-result"})
@@ -170,8 +170,8 @@ for i in product_urls:
              data_text = data_span.get_text(strip=True)
              if "manufacturer" in header_text:
                   manufacturer = data_text.split(':')[1].strip()
-                  
-    
+
+
     except:
         product_ma = product_soup.find(id="productDetails_techSpec_section_1")
         rows = product_ma.find_all('tr')
@@ -204,15 +204,6 @@ for i in product_urls:
 df = pd.DataFrame(product_details)
 
 df.to_csv('product_details.csv', index=False)
-
-
-
-   
-
-   
-
-
-
 
 
    
